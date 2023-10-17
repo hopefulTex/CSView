@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"strings"
 )
 
@@ -69,20 +70,27 @@ func parseMD(data string) ([][]string, []int, error) {
 		cells[i-rowOffset] = row
 	}
 
+	fmt.Println("alignment:")
+	fmt.Println(alignment)
 	return cells, alignment, nil
 }
 
 // 0,1 - left; 2 - right; 3 - center
 func getAlignment(cells []string) []int {
-	var alignment []int = make([]int, len(cells))
+	var offset int = 0
+	var alignment []int = make([]int, len(cells)-2)
 
 	for i := range alignment {
-		alignment[i] = 0
+		if cells[i] == "" {
+			offset++
+			continue
+		}
+		alignment[i-offset] = 0
 		if strings.HasPrefix(cells[i], ":") {
-			alignment[i] = 1
+			alignment[i-offset] = 1
 		}
 		if strings.HasSuffix(cells[i], ":") {
-			alignment[i] += 2
+			alignment[i-offset] += 2
 		}
 	}
 
