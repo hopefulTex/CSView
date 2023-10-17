@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/csv"
+	"fmt"
 	"os"
 	"strings"
 )
@@ -37,10 +38,14 @@ func Open(path string, kind string) ([][]string, []int, error) {
 		}
 		r := csv.NewReader(f)
 		data, err = r.ReadAll()
+		f.Close()
 		if err != nil {
 			return nil, nil, err
 		}
-		f.Close()
+		alignment = make([]int, len(data[0]))
+		for i := range alignment {
+			alignment[i] = 0
+		}
 	case "md":
 		bytes, err := os.ReadFile(path)
 		if err != nil {
@@ -51,6 +56,8 @@ func Open(path string, kind string) ([][]string, []int, error) {
 		if err != nil {
 			return nil, nil, err
 		}
+	default:
+		return nil, nil, fmt.Errorf("incorrect file type. Want csv or md")
 	}
 
 	return data, alignment, nil
@@ -100,9 +107,9 @@ func getAlignment(cells []string) []int {
 func toCSV(cells [][]string) string {
 	var str strings.Builder
 	for _, row := range cells {
-		for _, cell := range row {
+		for i, cell := range row {
 			if strings.ContainsAny(cell, ",") {
-				cell = "\"" + cell + "\""
+				row[i] = "\"" + cell + "\""
 			}
 		}
 		line := strings.Join(row, ", ")

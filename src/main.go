@@ -19,17 +19,19 @@ func main() {
 	data, alignment, err := Open(opts.sourcePath, opts.sourceKind)
 	if err != nil {
 		fmt.Printf("\nerror: %s\n", err.Error())
+		return
 	}
 
 	switch opts.action {
 	case "print":
-		fmt.Println(NewTable(data, alignment))
+		t := NewTable(data, alignment)
+		fmt.Println(t)
 	case "convert":
-		converted := Convert(data, opts.sourceKind)
+		//converted := Convert(data, opts.sourceKind)
 		if opts.sourceKind == "md" {
-			Write(converted, "csv")
+			Write(opts.destPath, "csv", data)
 		} else if opts.sourceKind == "csv" {
-			Write(converted, "md")
+			Write(opts.destPath, "md", data)
 		}
 	case "view":
 		fmt.Println("View has not been implemented.")
@@ -64,7 +66,11 @@ func parseArgs(args []string) Options {
 	}
 
 	opts.sourceKind = opts.sourcePath[strings.LastIndex(opts.sourcePath, "."):]
-
+	if len(opts.sourceKind) > 1 {
+		opts.sourceKind = opts.sourceKind[1:]
+	} else {
+		opts.sourceKind = ""
+	}
 	return opts
 }
 
