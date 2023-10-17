@@ -28,10 +28,15 @@ func main() {
 		fmt.Println(t)
 	case "convert":
 		//converted := Convert(data, opts.sourceKind)
+		var err error
 		if opts.sourceKind == "md" {
-			Write(opts.destPath, "csv", data)
+			err = Write(opts.destPath, "csv", data)
 		} else if opts.sourceKind == "csv" {
-			Write(opts.destPath, "md", data)
+			err = Write(opts.destPath, "md", data)
+		}
+		if err != nil {
+			fmt.Printf("error: %s\n", err.Error())
+			return
 		}
 	case "view":
 		fmt.Println("View has not been implemented.")

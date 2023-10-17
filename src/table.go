@@ -9,9 +9,9 @@ import (
 )
 
 var (
-	lineColor lipgloss.AdaptiveColor = lipgloss.AdaptiveColor{Light: "#F000F0", Dark: "#F000F0"}
-	evenColor lipgloss.AdaptiveColor = lipgloss.AdaptiveColor{Light: "#202020", Dark: "#202020"}
-	oddColor  lipgloss.AdaptiveColor = lipgloss.AdaptiveColor{Light: "#454545", Dark: "#454545"}
+	lineColor lipgloss.AdaptiveColor = lipgloss.AdaptiveColor{Light: "#F000F0", Dark: "#A000F0"}
+	evenColor lipgloss.AdaptiveColor = lipgloss.AdaptiveColor{Light: "#ECDFEC", Dark: "#202020"}
+	oddColor  lipgloss.AdaptiveColor = lipgloss.AdaptiveColor{Light: "", Dark: "#35353F"}
 )
 
 var (
@@ -49,13 +49,14 @@ func NewTable(cells [][]string, alignment []int) *table.Table {
 				direction = lipgloss.Left
 			}
 
+			// flipped even and odd because the start is 1 not 0
 			switch {
 			case row == 0:
 				style = HeaderStyle
 			case row%2 == 0:
-				style = EvenRowStyle.AlignHorizontal(direction)
-			default:
 				style = OddRowStyle.AlignHorizontal(direction)
+			default:
+				style = EvenRowStyle.AlignHorizontal(direction)
 			}
 			return style
 		})
