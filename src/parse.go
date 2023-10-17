@@ -1,7 +1,6 @@
 package main
 
 import (
-	"fmt"
 	"strings"
 )
 
@@ -70,8 +69,6 @@ func parseMD(data string) ([][]string, []int, error) {
 		cells[i-rowOffset] = row
 	}
 
-	fmt.Println("alignment:")
-	fmt.Println(alignment)
 	return cells, alignment, nil
 }
 
