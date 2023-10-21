@@ -5,9 +5,11 @@ This project is scuffed because during the initial commit process I *deleted the
 
 ## Usage
 Print Table: `csview print path/to/file.csv`
+
 Convert Table: `csview convert path/to/file.csv path/to/file.md`
 
 <img title="printing with csview" alt="a table read from markdown" src="images/Screenshot_2023-10-16_V1.png">
 
 ## Features
-- Print tables to the commandline
+- Print `csv` or `md` tables to the commandline
+- Convert between `csv` and `md`
